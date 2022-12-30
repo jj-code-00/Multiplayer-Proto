@@ -56,7 +56,7 @@ func _input(event):
 func setBlendPos():
 	animation_tree.set("parameters/Idle/blend_position", motion)
 	animation_tree.set("parameters/Walk/blend_position", motion)
-	animation_tree.set("parameters/Attack/blend_position", motion)
+	animation_tree.set("parameters/Attack/blend_position", motion) 
 
 func select_animation():
 	if(velocity == Vector2.ZERO):
