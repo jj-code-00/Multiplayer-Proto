@@ -14,6 +14,7 @@ var facing = Vector2.ZERO
 @onready var animation_state = animation_tree.get("parameters/playback")
 @onready var health_bar = $GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer/VBoxContainer/Health
 @onready var ki_bar = $GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer/VBoxContainer/Ki
+@onready var stat_menu = $GUI/MarginContainer/CenterContainer/TabContainer
 
 func _ready():
 	facing = motion
@@ -40,18 +41,15 @@ func _input(event):
 	if is_multiplayer_authority():
 		if event.is_action_pressed("i_attack") && !attacking:
 			Server.get_inputs(str(name),"i_attack")
-#			match facing:
-#				Vector2.RIGHT:
-#					animation_player.play("attack_right")
-#				Vector2.DOWN:
-#					animation_player.play("attack_right")
-#				Vector2.LEFT:
-#					animation_player.play("attack_left")
-#				Vector2.UP:
-#					animation_player.play("attack_left")
 			attacking = true
 			# replace this with getting cd from server
 			$"Timers/Attack Animation CD".start(.2)
+		if event.is_action_pressed("i_stat_menu"):
+			if !stat_menu.visible:
+				stat_menu.visible = true
+			else : stat_menu.visible = false
+		if event.is_action_pressed("i_meditate"):
+			Server.get_inputs(str(name),"i_meditate")
 
 func setBlendPos():
 	animation_tree.set("parameters/Idle/blend_position", motion)

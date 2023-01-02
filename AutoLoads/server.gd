@@ -2,9 +2,13 @@ extends Node
 
 @onready var main = get_tree().get_root().get_node("Main")
 
-@rpc(call_remote)
+@rpc
 func kick(player_id):
-	get_tree().multiplayer.multiplayer_peer = null
+	pass
+
+@rpc(call_remote)
+func kick_client(player_id):
+	get_tree().quit()
 
 @rpc
 func request_color_change(target_id, requester_id, color):
@@ -36,10 +40,17 @@ func update_GUI(target_id, health_percent, ki_percent):
 
 @rpc(call_remote)
 func update_GUI_client(target_id, health_percent, ki_percent):
-	print("Recieved GUI update")
 	main.get_node(str(target_id)).set_ki_bar(ki_percent)
 	main.get_node(str(target_id)).set_health_bar(health_percent)
 
 @rpc
 func client_ready(client_id):
 	rpc_id(1,"client_ready",client_id)
+
+@rpc
+func get_stats(player_id):
+	rpc_id(1,"get_stats",player_id)
+
+@rpc(call_remote)
+func receive_stats(player_id,stats):
+	main.get_node(str(player_id)).get_node("GUI").stats = stats.duplicate()

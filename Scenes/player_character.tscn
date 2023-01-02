@@ -1,8 +1,9 @@
-[gd_scene load_steps=45 format=3 uid="uid://di1ayvcttld48"]
+[gd_scene load_steps=46 format=3 uid="uid://di1ayvcttld48"]
 
 [ext_resource type="Script" path="res://Scenes/player_character.gd" id="1_lwsv6"]
 [ext_resource type="Texture2D" uid="uid://bx5e27ayxdsm3" path="res://Assets/DU-assets/Player Icons/Tan Male.png" id="2_441iy"]
 [ext_resource type="Texture2D" uid="uid://bblaadw68dolm" path="res://Assets/black-color-solid-background-1920x1080.png" id="3_5cp7i"]
+[ext_resource type="Script" path="res://Scenes/GUI.gd" id="3_a6g58"]
 [ext_resource type="Texture2D" uid="uid://ytmrqecjwacu" path="res://Assets/ruby-red-color-solid-background-1920x1080.png" id="4_cndtv"]
 [ext_resource type="Texture2D" uid="uid://ceumdf8lw4yvy" path="res://Assets/light-green-color-solid-background-1920x1080.png" id="4_o4dc7"]
 [ext_resource type="Texture2D" uid="uid://cwqp8c57ri8lv" path="res://Assets/5b55347cbc59b8849f75454d77c0d828.jpg" id="5_6ufyy"]
@@ -384,6 +385,7 @@ one_shot = true
 
 [node name="GUI" type="CanvasLayer" parent="."]
 visible = false
+script = ExtResource("3_a6g58")
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI"]
 anchors_preset = 15
@@ -397,18 +399,22 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer"]
-layout_mode = 2
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 1132.0
+offset_bottom = 628.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
+offset_right = 1112.0
+offset_bottom = 80.0
 
 [node name="Panel" type="Panel" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(300, 20)
-layout_mode = 2
+offset_right = 300.0
+offset_bottom = 80.0
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel"]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -420,25 +426,187 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="CenterContainer" type="CenterContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
-layout_mode = 2
+offset_left = 5.0
+offset_top = 8.0
+offset_right = 295.0
+offset_bottom = 72.0
 size_flags_vertical = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer"]
-layout_mode = 2
+offset_left = 20.0
+offset_right = 270.0
+offset_bottom = 64.0
 
 [node name="Health" type="TextureProgressBar" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 30)
-layout_mode = 2
+offset_right = 250.0
+offset_bottom = 30.0
 nine_patch_stretch = true
 texture_under = ExtResource("4_cndtv")
 texture_progress = ExtResource("4_o4dc7")
 
 [node name="Ki" type="TextureProgressBar" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
+offset_top = 34.0
+offset_right = 250.0
+offset_bottom = 64.0
 nine_patch_stretch = true
 texture_under = ExtResource("3_5cp7i")
 texture_progress = ExtResource("5_6ufyy")
+
+[node name="CenterContainer" type="CenterContainer" parent="GUI/MarginContainer"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 1132.0
+offset_bottom = 628.0
+
+[node name="TabContainer" type="TabContainer" parent="GUI/MarginContainer/CenterContainer"]
+visible = false
+offset_left = 556.0
+offset_top = 288.0
+offset_right = 556.0
+offset_bottom = 319.0
+
+[node name="Attributes" type="Panel" parent="GUI/MarginContainer/CenterContainer/TabContainer"]
+custom_minimum_size = Vector2(600, 400)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 31.0
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 590.0
+offset_bottom = 390.0
+
+[node name="Attribute_list" type="VBoxContainer" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+offset_right = 100.0
+offset_bottom = 380.0
+
+[node name="Vitality" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
+custom_minimum_size = Vector2(0, 30)
+offset_right = 100.0
+offset_bottom = 30.0
+text = "Vitality"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Spirit" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 34.0
+offset_right = 100.0
+offset_bottom = 64.0
+text = "Spirit
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Strength" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 68.0
+offset_right = 100.0
+offset_bottom = 98.0
+text = "Strength
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Agility" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 102.0
+offset_right = 100.0
+offset_bottom = 132.0
+text = "Agility"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Durability" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 136.0
+offset_right = 100.0
+offset_bottom = 166.0
+text = "Durability"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Force" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 170.0
+offset_right = 100.0
+offset_bottom = 200.0
+text = "Force"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Upgrade Buttons" type="VBoxContainer" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+offset_left = 104.0
+offset_right = 204.0
+offset_bottom = 380.0
+
+[node name="Vitality_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
+custom_minimum_size = Vector2(0, 30)
+offset_right = 100.0
+offset_bottom = 30.0
+
+[node name="Spirit_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 34.0
+offset_right = 100.0
+offset_bottom = 65.0
+text = "
+"
+
+[node name="Strength_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 69.0
+offset_right = 100.0
+offset_bottom = 100.0
+text = "
+"
+
+[node name="Agility_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 104.0
+offset_right = 100.0
+offset_bottom = 134.0
+
+[node name="Durability_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 138.0
+offset_right = 100.0
+offset_bottom = 168.0
+
+[node name="Force_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
+custom_minimum_size = Vector2(0, 30)
+offset_top = 172.0
+offset_right = 100.0
+offset_bottom = 202.0
+
+[node name="Skills" type="Panel" parent="GUI/MarginContainer/CenterContainer/TabContainer"]
+visible = false
+custom_minimum_size = Vector2(600, 400)
+
+[node name="Transformations" type="Panel" parent="GUI/MarginContainer/CenterContainer/TabContainer"]
+visible = false
+custom_minimum_size = Vector2(600, 400)
+
+[node name="Ki Attacks" type="Panel" parent="GUI/MarginContainer/CenterContainer/TabContainer"]
+visible = false
+custom_minimum_size = Vector2(600, 400)
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="timeout" from="Timers/Attack Animation CD" to="." method="_on_attack_animation_cd_timeout"]
