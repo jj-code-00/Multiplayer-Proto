@@ -1,7 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://di1ayvcttld48"]
+[gd_scene load_steps=45 format=3 uid="uid://di1ayvcttld48"]
 
 [ext_resource type="Script" path="res://Scenes/player_character.gd" id="1_lwsv6"]
 [ext_resource type="Texture2D" uid="uid://bx5e27ayxdsm3" path="res://Assets/DU-assets/Player Icons/Tan Male.png" id="2_441iy"]
+[ext_resource type="Texture2D" uid="uid://bblaadw68dolm" path="res://Assets/black-color-solid-background-1920x1080.png" id="3_5cp7i"]
+[ext_resource type="Texture2D" uid="uid://ytmrqecjwacu" path="res://Assets/ruby-red-color-solid-background-1920x1080.png" id="4_cndtv"]
+[ext_resource type="Texture2D" uid="uid://ceumdf8lw4yvy" path="res://Assets/light-green-color-solid-background-1920x1080.png" id="4_o4dc7"]
+[ext_resource type="Texture2D" uid="uid://cwqp8c57ri8lv" path="res://Assets/5b55347cbc59b8849f75454d77c0d828.jpg" id="5_6ufyy"]
 
 [sub_resource type="Animation" id="Animation_bboqk"]
 length = 0.001
@@ -16,6 +20,40 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_u3bxx"]
+resource_name = "attack_left"
+length = 0.2
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [41]
+}
+
+[sub_resource type="Animation" id="Animation_q850h"]
+resource_name = "attack_right"
+length = 0.2
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [34]
 }
 
 [sub_resource type="Animation" id="Animation_baktc"]
@@ -162,40 +200,6 @@ tracks/0/keys = {
 "values": [5, 9, 13, 17]
 }
 
-[sub_resource type="Animation" id="Animation_q850h"]
-resource_name = "attack_right"
-length = 0.2
-step = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [34]
-}
-
-[sub_resource type="Animation" id="Animation_u3bxx"]
-resource_name = "attack_left"
-length = 0.2
-step = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [41]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_05csp"]
 _data = {
 "RESET": SubResource("Animation_bboqk"),
@@ -210,6 +214,29 @@ _data = {
 "walk_right": SubResource("Animation_a7l7q"),
 "walk_up": SubResource("Animation_2lqsh")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ch4g8"]
+animation = &"attack_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_abrml"]
+animation = &"attack_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ah8ju"]
+animation = &"attack_right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4f5xk"]
+animation = &"attack_left"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_jk80d"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_ch4g8")
+blend_point_0/pos = Vector2(-1, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_abrml")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_ah8ju")
+blend_point_2/pos = Vector2(1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_4f5xk")
+blend_point_3/pos = Vector2(0, -1)
+blend_mode = 1
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tro5d"]
 animation = &"idle_left"
@@ -264,12 +291,25 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nx8y5"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2howd"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_0xmmk"]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6ot2y"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gw4wc"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_y57yn"]
+states/Attack/node = SubResource("AnimationNodeBlendSpace2D_jk80d")
+states/Attack/position = Vector2(446, 1)
 states/Idle/node = SubResource("AnimationNodeBlendSpace2D_08j6d")
 states/Idle/position = Vector2(403, 100)
 states/Walk/node = SubResource("AnimationNodeBlendSpace2D_wefyf")
 states/Walk/position = Vector2(551, 100)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_nmg35"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_u06n1"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_nx8y5")]
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_nmg35"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_u06n1"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_nx8y5"), "Walk", "Attack", SubResource("AnimationNodeStateMachineTransition_2howd"), "Attack", "Walk", SubResource("AnimationNodeStateMachineTransition_0xmmk"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_6ot2y"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_gw4wc")]
 graph_offset = Vector2(-42, -38)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_x323a"]
@@ -280,27 +320,27 @@ graph_offset = Vector2(-42, -38)
 properties/0/path = NodePath("Sprite2D:modulate")
 properties/0/spawn = true
 properties/0/sync = true
-properties/1/path = NodePath("HurtBox/HurtBox Collision Shape:disabled")
+properties/1/path = NodePath("AnimationTree:parameters/Idle/blend_position")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath(".:synced_position")
+properties/2/path = NodePath("AnimationTree:parameters/Walk/blend_position")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath(".:motion")
-properties/3/spawn = true
-properties/3/sync = true
-properties/4/path = NodePath("AnimationTree:parameters/Idle/blend_position")
+properties/3/path = NodePath("AnimationPlayer:current_animation")
+properties/3/spawn = false
+properties/3/sync = false
+properties/4/path = NodePath(".:position")
 properties/4/spawn = true
 properties/4/sync = true
-properties/5/path = NodePath("AnimationTree:parameters/Walk/blend_position")
+properties/5/path = NodePath(".:motion")
 properties/5/spawn = true
 properties/5/sync = true
-properties/6/path = NodePath("AnimationPlayer:current_animation")
+properties/6/path = NodePath("AnimationTree:parameters/Attack/blend_position")
 properties/6/spawn = true
 properties/6/sync = true
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cb0wt"]
-size = Vector2(32, 39)
+properties/7/path = NodePath(".:attacking")
+properties/7/spawn = true
+properties/7/sync = true
 
 [node name="Player_Character" type="CharacterBody2D" groups=["players"]]
 motion_mode = 1
@@ -316,6 +356,7 @@ tree_root = SubResource("AnimationNodeStateMachine_y57yn")
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource("AnimationNodeStateMachinePlayback_x323a")
+parameters/Attack/blend_position = Vector2(0, 0)
 parameters/Idle/blend_position = Vector2(0, 0)
 parameters/Walk/blend_position = Vector2(0, 0)
 
@@ -328,17 +369,76 @@ hframes = 9
 vframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 3)
 shape = SubResource("CapsuleShape2D_2lhmj")
+disabled = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_oq7vv")
 
-[node name="HurtBox" type="Area2D" parent="."]
+[node name="Timers" type="Node" parent="."]
 
-[node name="HurtBox Collision Shape" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, 2)
-shape = SubResource("RectangleShape2D_cb0wt")
+[node name="Attack Animation CD" type="Timer" parent="Timers"]
+one_shot = true
 
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="body_entered" from="HurtBox" to="." method="_on_hurt_box_body_entered"]
+[node name="GUI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 20)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="CenterContainer" type="CenterContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="Health" type="TextureProgressBar" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 30)
+layout_mode = 2
+nine_patch_stretch = true
+texture_under = ExtResource("4_cndtv")
+texture_progress = ExtResource("4_o4dc7")
+
+[node name="Ki" type="TextureProgressBar" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+nine_patch_stretch = true
+texture_under = ExtResource("3_5cp7i")
+texture_progress = ExtResource("5_6ufyy")
+
+[connection signal="ready" from="." to="." method="_on_ready"]
+[connection signal="timeout" from="Timers/Attack Animation CD" to="." method="_on_attack_animation_cd_timeout"]
