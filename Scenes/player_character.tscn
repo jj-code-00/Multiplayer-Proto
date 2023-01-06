@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://di1ayvcttld48"]
+[gd_scene load_steps=50 format=3 uid="uid://di1ayvcttld48"]
 
 [ext_resource type="Script" path="res://Scenes/player_character.gd" id="1_lwsv6"]
 [ext_resource type="Texture2D" uid="uid://bx5e27ayxdsm3" path="res://Assets/DU-assets/Player Icons/Tan Male.png" id="2_441iy"]
@@ -55,6 +55,24 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [34]
+}
+
+[sub_resource type="Animation" id="Animation_u8swp"]
+resource_name = "i_meditate"
+length = 0.2
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [32]
 }
 
 [sub_resource type="Animation" id="Animation_baktc"]
@@ -206,6 +224,7 @@ _data = {
 "RESET": SubResource("Animation_bboqk"),
 "attack_left": SubResource("Animation_u3bxx"),
 "attack_right": SubResource("Animation_q850h"),
+"i_meditate": SubResource("Animation_u8swp"),
 "idle_down": SubResource("Animation_baktc"),
 "idle_left": SubResource("Animation_qfwiu"),
 "idle_right": SubResource("Animation_sk2gu"),
@@ -285,6 +304,9 @@ blend_point_3/node = SubResource("AnimationNodeAnimation_fgvxu")
 blend_point_3/pos = Vector2(0, -1)
 blend_mode = 1
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_757bh"]
+animation = &"i_meditate"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_nmg35"]
 advance_mode = 2
 
@@ -303,6 +325,10 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_gw4wc"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wx6hx"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_i10sn"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_y57yn"]
 states/Attack/node = SubResource("AnimationNodeBlendSpace2D_jk80d")
 states/Attack/position = Vector2(446, 1)
@@ -310,8 +336,10 @@ states/Idle/node = SubResource("AnimationNodeBlendSpace2D_08j6d")
 states/Idle/position = Vector2(403, 100)
 states/Walk/node = SubResource("AnimationNodeBlendSpace2D_wefyf")
 states/Walk/position = Vector2(551, 100)
-transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_nmg35"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_u06n1"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_nx8y5"), "Walk", "Attack", SubResource("AnimationNodeStateMachineTransition_2howd"), "Attack", "Walk", SubResource("AnimationNodeStateMachineTransition_0xmmk"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_6ot2y"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_gw4wc")]
-graph_offset = Vector2(-42, -38)
+states/i_meditate/node = SubResource("AnimationNodeAnimation_757bh")
+states/i_meditate/position = Vector2(403, 175.022)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_nmg35"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_u06n1"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_nx8y5"), "Walk", "Attack", SubResource("AnimationNodeStateMachineTransition_2howd"), "Attack", "Walk", SubResource("AnimationNodeStateMachineTransition_0xmmk"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_6ot2y"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_gw4wc"), "Idle", "i_meditate", SubResource("AnimationNodeStateMachineTransition_wx6hx"), "i_meditate", "Idle", SubResource("AnimationNodeStateMachineTransition_i10sn")]
+graph_offset = Vector2(-42, 2.02162)
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id="AnimationNodeStateMachinePlayback_x323a"]
 
@@ -327,19 +355,19 @@ properties/1/sync = true
 properties/2/path = NodePath("AnimationTree:parameters/Walk/blend_position")
 properties/2/spawn = true
 properties/2/sync = true
-properties/3/path = NodePath("AnimationPlayer:current_animation")
-properties/3/spawn = false
-properties/3/sync = false
-properties/4/path = NodePath(".:position")
+properties/3/path = NodePath(".:position")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath(".:motion")
 properties/4/spawn = true
 properties/4/sync = true
-properties/5/path = NodePath(".:motion")
+properties/5/path = NodePath("AnimationTree:parameters/Attack/blend_position")
 properties/5/spawn = true
 properties/5/sync = true
-properties/6/path = NodePath("AnimationTree:parameters/Attack/blend_position")
+properties/6/path = NodePath(".:attacking")
 properties/6/spawn = true
 properties/6/sync = true
-properties/7/path = NodePath(".:attacking")
+properties/7/path = NodePath(".:meditating")
 properties/7/spawn = true
 properties/7/sync = true
 
@@ -399,22 +427,18 @@ theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 1132.0
-offset_bottom = 628.0
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 80)
-offset_right = 1112.0
-offset_bottom = 80.0
+layout_mode = 2
 
 [node name="Panel" type="Panel" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(300, 20)
-offset_right = 300.0
-offset_bottom = 80.0
+layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -426,55 +450,39 @@ theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
 [node name="CenterContainer" type="CenterContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer"]
-offset_left = 5.0
-offset_top = 8.0
-offset_right = 295.0
-offset_bottom = 72.0
+layout_mode = 2
 size_flags_vertical = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer"]
-offset_left = 20.0
-offset_right = 270.0
-offset_bottom = 64.0
+layout_mode = 2
 
 [node name="Health" type="TextureProgressBar" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(250, 30)
-offset_right = 250.0
-offset_bottom = 30.0
+layout_mode = 2
 nine_patch_stretch = true
 texture_under = ExtResource("4_cndtv")
 texture_progress = ExtResource("4_o4dc7")
 
 [node name="Ki" type="TextureProgressBar" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer/Panel/MarginContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 34.0
-offset_right = 250.0
-offset_bottom = 64.0
+layout_mode = 2
 nine_patch_stretch = true
 texture_under = ExtResource("3_5cp7i")
 texture_progress = ExtResource("5_6ufyy")
 
 [node name="CenterContainer" type="CenterContainer" parent="GUI/MarginContainer"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 1132.0
-offset_bottom = 628.0
+layout_mode = 2
 
 [node name="TabContainer" type="TabContainer" parent="GUI/MarginContainer/CenterContainer"]
 visible = false
-offset_left = 556.0
-offset_top = 288.0
-offset_right = 556.0
-offset_bottom = 319.0
+layout_mode = 2
 
 [node name="Attributes" type="Panel" parent="GUI/MarginContainer/CenterContainer/TabContainer"]
 custom_minimum_size = Vector2(600, 400)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 31.0
+layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -486,29 +494,22 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 590.0
-offset_bottom = 390.0
+layout_mode = 2
 
 [node name="Attribute_list" type="VBoxContainer" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
-offset_right = 100.0
-offset_bottom = 380.0
+layout_mode = 2
 
 [node name="Vitality" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
 custom_minimum_size = Vector2(0, 30)
-offset_right = 100.0
-offset_bottom = 30.0
+layout_mode = 2
 text = "Vitality"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Spirit" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 34.0
-offset_right = 100.0
-offset_bottom = 64.0
+layout_mode = 2
 text = "Spirit
 "
 horizontal_alignment = 1
@@ -516,9 +517,7 @@ vertical_alignment = 1
 
 [node name="Strength" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 68.0
-offset_right = 100.0
-offset_bottom = 98.0
+layout_mode = 2
 text = "Strength
 "
 horizontal_alignment = 1
@@ -526,87 +525,71 @@ vertical_alignment = 1
 
 [node name="Agility" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 102.0
-offset_right = 100.0
-offset_bottom = 132.0
+layout_mode = 2
 text = "Agility"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Durability" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 136.0
-offset_right = 100.0
-offset_bottom = 166.0
+layout_mode = 2
 text = "Durability"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Force" type="Label" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Attribute_list"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 170.0
-offset_right = 100.0
-offset_bottom = 200.0
+layout_mode = 2
 text = "Force"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Upgrade Buttons" type="VBoxContainer" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
-offset_left = 104.0
-offset_right = 204.0
-offset_bottom = 380.0
+layout_mode = 2
 
 [node name="Vitality_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
 custom_minimum_size = Vector2(0, 30)
-offset_right = 100.0
-offset_bottom = 30.0
+layout_mode = 2
 
 [node name="Spirit_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 34.0
-offset_right = 100.0
-offset_bottom = 65.0
+layout_mode = 2
 text = "
 "
 
 [node name="Strength_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 69.0
-offset_right = 100.0
-offset_bottom = 100.0
+layout_mode = 2
 text = "
 "
 
 [node name="Agility_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 104.0
-offset_right = 100.0
-offset_bottom = 134.0
+layout_mode = 2
 
 [node name="Durability_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 138.0
-offset_right = 100.0
-offset_bottom = 168.0
+layout_mode = 2
 
 [node name="Force_Button" type="Button" parent="GUI/MarginContainer/CenterContainer/TabContainer/Attributes/MarginContainer/HBoxContainer/Upgrade Buttons"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 172.0
-offset_right = 100.0
-offset_bottom = 202.0
+layout_mode = 2
 
 [node name="Skills" type="Panel" parent="GUI/MarginContainer/CenterContainer/TabContainer"]
 visible = false
 custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
 
 [node name="Transformations" type="Panel" parent="GUI/MarginContainer/CenterContainer/TabContainer"]
 visible = false
 custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
 
 [node name="Ki Attacks" type="Panel" parent="GUI/MarginContainer/CenterContainer/TabContainer"]
 visible = false
 custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
 
 [connection signal="ready" from="." to="." method="_on_ready"]
 [connection signal="timeout" from="Timers/Attack Animation CD" to="." method="_on_attack_animation_cd_timeout"]

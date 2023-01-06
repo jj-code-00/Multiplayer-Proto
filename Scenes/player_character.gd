@@ -6,6 +6,8 @@ var speed = 250
 var attacking = false
 @export
 var motion = Vector2()
+@export
+var meditating = false
 
 var facing = Vector2.ZERO
 
@@ -50,6 +52,11 @@ func _input(event):
 			else : stat_menu.visible = false
 		if event.is_action_pressed("i_meditate"):
 			Server.get_inputs(str(name),"i_meditate")
+			if !meditating:
+				meditating = true
+				
+			else:
+				meditating = false
 
 func setBlendPos():
 	animation_tree.set("parameters/Idle/blend_position", motion)
@@ -57,7 +64,8 @@ func setBlendPos():
 	animation_tree.set("parameters/Attack/blend_position", motion) 
 
 func select_animation():
-	if attacking: animation_state.travel("Attack")
+	if meditating: animation_state.travel("i_meditate")
+	elif attacking: animation_state.travel("Attack")
 	elif(motion == Vector2.ZERO):
 			animation_state.travel("Idle")
 	else: animation_state.travel("Walk")
